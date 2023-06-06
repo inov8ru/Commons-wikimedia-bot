@@ -4,9 +4,6 @@ import feedparser
 import telebot
 import re
 from time import sleep
-from dateutil.tz import tzutc
-from datetime import datetime
-from datetime import timezone
 from datetime import timedelta
 
 bot = telebot.TeleBot(os.getenv('BOT_KEY'))
@@ -23,8 +20,6 @@ def parse_url(feed, i):
   url = feed.entries[i].id
   url = re.search('^[^&]*', url)[0]
   return url
-
-
 
 while True:
   if len(messages_list1) == 0:
