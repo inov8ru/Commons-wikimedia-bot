@@ -23,12 +23,14 @@ def parse_url(feed, i):
 
 while True:
   if len(messages_list1) == 0:
+    print('No messages in messages_list1. Collecting...')
     d = feedparser.parse(feed_url)
-    message = parse_url(d, 1)
+    message = parse_url(d, 0)
     while message == last_sent_message:
+      print('last_sent_message founded. Waiting...')
       sleep(3)
       d = feedparser.parse(feed_url)
-      message = parse_url(d, 1)
+      message = parse_url(d, 0)
     else:
       for i in range (50):
         message = parse_url(d, i)
@@ -36,12 +38,13 @@ while True:
           break
         else:
           messages_list1.append(message)
+          print(i, 'messages added to messages_list1')
   else:
     for m in reversed(messages_list1):
       bot.send_message(channel, m)
       sent_msg_cnt += 1
-      if sent_msg_cnt % 5 == 0:
-        print(sent_msg_cnt, 'messages sent. Last sent message:', m)
+    #   if sent_msg_cnt % 5 == 0:
+      print(sent_msg_cnt, 'messages sent. Last sent message:', m)
       last_sent_message = m
       d = feedparser.parse(feed_url)
       for i in range (50):
